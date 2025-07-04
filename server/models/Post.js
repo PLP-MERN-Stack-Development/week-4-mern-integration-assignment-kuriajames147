@@ -1,6 +1,18 @@
 // Post.js - Mongoose model for blog posts
 
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
+const postSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  body: { type: String, required: true },
+  image: { type: String },
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
+}, { timestamps: true });
+
+const Post = mongoose.model('Post', postSchema);
+export default Post; // ✅ use `export default` for ES modules
+
 
 const PostSchema = new mongoose.Schema(
   {
@@ -97,4 +109,4 @@ PostSchema.methods.incrementViewCount = function () {
   return this.save();
 };
 
-module.exports = mongoose.model('Post', PostSchema); 
+ // ✅ ES Module syntax

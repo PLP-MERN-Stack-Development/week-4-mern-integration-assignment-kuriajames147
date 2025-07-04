@@ -1,17 +1,21 @@
 // server.js - Main server file for the MERN blog application
 
 // Import required modules
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const path = require('path');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import mongoose from 'mongoose';
 
-// Import routes
-const postRoutes = require('./routes/posts');
-const categoryRoutes = require('./routes/categories');
-const authRoutes = require('./routes/auth');
+import connectDB from './config/db.js';
+import authRoutes from './routes/authRoutes.js';
+import postRoutes from './routes/postRoutes.js';
+import commentRoutes from './routes/commentRoutes.js';
 
+// ✅ Define __dirname properly in ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 // Load environment variables
 dotenv.config();
 
@@ -37,7 +41,6 @@ if (process.env.NODE_ENV === 'development') {
 
 // API routes
 app.use('/api/posts', postRoutes);
-app.use('/api/categories', categoryRoutes);
 app.use('/api/auth', authRoutes);
 
 // Root route
@@ -75,4 +78,3 @@ process.on('unhandledRejection', (err) => {
   process.exit(1);
 });
 
-module.exports = app; 
